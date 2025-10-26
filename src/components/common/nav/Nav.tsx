@@ -1,6 +1,8 @@
 "use client"
 
 import React from "react";
+import Image from "next/image";
+
 import {
     Navbar,
     NavbarBrand,
@@ -10,8 +12,9 @@ import {
     NavbarMenu,
     NavbarMenuItem,
     Link,
-    Button,
 } from "@heroui/react";
+
+import {Button, ButtonGroup} from "@heroui/button";
 
 import navMenuItems from "@/config/home/navMenu";
 
@@ -25,6 +28,12 @@ function UserIcon() {
         </svg>
 
     )
+}
+
+function LogoIcon() {
+    return (
+        <Image width={250} height={250} src={"/ophelix_transparent.svg"} alt="Logo"/>
+    )
 };
 
 function UserButton() {
@@ -35,37 +44,46 @@ function UserButton() {
             </Button>
         </div>
     )
+};
+
+function JewelButton() {
+    return (
+        <Button variant="bordered" size="md" radius={"md"}
+                className={"text-secondary border-secondary  bg-linear-to-tr from-primary " +
+                    "to-[#BC58E8]"}>
+            JEWEL
+        </Button>
+    )
 }
+
 
 export default function Nav() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     return (
-        <Navbar onMenuOpenChange={setIsMenuOpen} className="bg-primary" maxWidth="full">
+        <Navbar position={"sticky"} onMenuOpenChange={setIsMenuOpen} className="bg-primary" maxWidth="full" isBordered>
             <NavbarContent justify="start" className="items-center">
                 <NavbarMenuToggle
-                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                />
-                <NavbarBrand>
-                    <p className="font-bold text-inherit">ACME</p>
-                </NavbarBrand>
+                    aria-label={isMenuOpen ? "Close menu" : "Open menu"} className={"text-secondary"}/>
             </NavbarContent>
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                <NavbarItem>
-                    LOGO
-                </NavbarItem>
+                <NavbarBrand>
+                    <LogoIcon/>
+                </NavbarBrand>
             </NavbarContent>
             <NavbarContent justify="end">
+                <NavbarItem>
+                    <JewelButton/>
+                </NavbarItem>
                 <NavbarItem>
                     <UserButton/>
                 </NavbarItem>
             </NavbarContent>
-            <NavbarMenu>
+            <NavbarMenu className={"w-fit py-5 rounded-b-sm"}>
                 <div className="">
                     {navMenuItems.map((item, index) => (
                         <NavbarMenuItem key={`${item}-${index}`}>
                             <Link
-                                className="w-full"
                                 color={
                                     index === 2 ? "warning" : index === navMenuItems.length - 1 ? "danger" : "foreground"
                                 }
@@ -79,7 +97,6 @@ export default function Nav() {
                 </div>
                 <div className="mt-20">
                     <NavbarMenuItem> Privilege Path</NavbarMenuItem>
-
                 </div>
             </NavbarMenu>
         </Navbar>

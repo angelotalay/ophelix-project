@@ -1,20 +1,5 @@
-import React from "react";
 import type {Metadata} from "next";
-import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
-import Providers from "@/app/providers";
-
-import Nav from "@/components/common/nav/Nav"
-
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -27,18 +12,12 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning={true}>
+        <html lang="en">
         <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            className="antialiased"
         >
-        <Providers>
-            <div className="w-full relative flex-col h-screen">
-                <Nav/>
-                {children}
-            </div>
-        </Providers>
+        {children}
         </body>
         </html>
-
     );
 }
