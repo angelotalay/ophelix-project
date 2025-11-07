@@ -13,6 +13,20 @@
  */
 
 // Source: schema.json
+export type SiteSettings = {
+  _id: string;
+  _type: "siteSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  homePage?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "page";
+  };
+};
+
 export type BlockContent = Array<{
   children?: Array<{
     marks?: Array<string>;
@@ -76,7 +90,7 @@ export type Hero = {
   _type: "hero";
   title?: string;
   text?: BlockContent;
-  image?: {
+  mainImage?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -208,7 +222,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = BlockContent | PageBuilder | Page | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = SiteSettings | BlockContent | PageBuilder | Page | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PAGE_QUERY
@@ -234,7 +248,7 @@ export type PAGE_QUERYResult = {
     _type: "hero";
     title?: string;
     text?: BlockContent;
-    image?: {
+    mainImage?: {
       asset?: {
         _ref: string;
         _type: "reference";
@@ -248,11 +262,48 @@ export type PAGE_QUERYResult = {
     };
   }> | null;
 } | null;
+// Variable: LANDING_PAGE_QUERY
+// Query: *[_type == "siteSettings"][0]{  homePage->{    mainImage,    content[]{      ...    }  }}
+export type LANDING_PAGE_QUERYResult = {
+  homePage: {
+    mainImage: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    } | null;
+    content: Array<{
+      _key: string;
+      _type: "hero";
+      title?: string;
+      text?: BlockContent;
+      mainImage?: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
+    }> | null;
+  } | null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "\n  *[_type == \"page\" && slug.current == $slug][0]{\n    _id,\n    title,\n    slug,\n    mainImage,\n    content[]{\n      ...,\n      _type == \"reference\" => @->{\n        _type,\n        title,\n        ...\n      }\n    }\n  }\n": PAGE_QUERYResult;
+    "\n*[_type == \"siteSettings\"][0]{\n  homePage->{\n    mainImage,\n    content[]{\n      ...\n    }\n  }\n}\n": LANDING_PAGE_QUERYResult;
   }
 }

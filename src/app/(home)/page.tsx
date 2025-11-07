@@ -7,10 +7,7 @@ export default async function Home() {
     const {data: page} = await sanityFetch({query: LANDING_PAGE_QUERY})
     return (
         <main className="light">
-            {
-                page &&
-                <Hero page={page}/>
-            }
+            <Hero page={page.homePage}/>
         </main>
     );
 }

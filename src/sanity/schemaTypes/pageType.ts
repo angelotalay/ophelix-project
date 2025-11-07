@@ -10,6 +10,7 @@ export const pageType = defineType({
         defineField({
             name: "title",
             type: "string",
+            description: "Title of the page",
         }),
         defineField({
             name: "slug",

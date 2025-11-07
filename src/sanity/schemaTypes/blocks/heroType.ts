@@ -14,14 +14,14 @@ export const heroType = defineType({
             type: "blockContent"
         }),
         defineField({
-            name: "image",
+            name: "mainImage",
             type: "image"
         })
     ],
     preview: {
         select: {
             title: "title",
-            media: "image",
+            media: "mainImage",
         },
         prepare({title, media}) {
             return {

@@ -7,12 +7,15 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "typegen": "sanity schema extract --path=./src/sanity/extract.json && sanity typegen generate"
+    "predev": "pnpm run typegen --enforce-required-fields",
+    "prebuild": "pnpm run typegen --enforce-required-fields",
+    "typegen": "sanity schema extract --path= && sanity typegen generate --enforce-required-fields"
   },
   "dependencies": {
     "@heroui/button": "^2.2.27",
     "@heroui/navbar": "^2.2.25",
     "@heroui/react": "^2.8.5",
+    "@sanity/icons": "^3.7.4",
     "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "^4.10.3",
     "framer-motion": "^12.23.24",
